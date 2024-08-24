@@ -1,59 +1,89 @@
-import java.awt.Point;
 import java.util.*;
 
 public class Main {
-    static int n, m;    
-    static int[][] arr; 
-    static boolean[][] visited; 
-    static int[] dx = {-1, 1, 0, 0};  
-    static int[] dy = {0, 0, -1, 1}; 
 
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m = sc.nextInt();
-        arr = new int[n][m];
-        visited = new boolean[n][m];
-        sc.nextLine(); 
-        
-        for (int i = 0; i < n; i++) {
-            String line = sc.next();    
-            for (int j = 0; j < m; j++) {
-                arr[i][j] = line.charAt(j) - '0'; 
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int[][] maze = new int[N][M];
+        int[][] dist = new int[N][M];
+        sc.nextLine();
+
+        for (int i = 0; i < N; i++) {
+            String str = sc.next();
+            for (int j = 0; j < M; j++) {
+                maze[i][j] = str.charAt(j) - '0';
+                dist[i][j] = -1;
             }
         }
-        bfs(0, 0);   
-        System.out.println(arr[n - 1][m - 1]); 
-    }
-   
-    static void bfs(int x, int y) {
-       
-        Queue<Point> queue = new LinkedList<>();
-        queue.offer(new Point(x, y));
-        visited[x][y] = true;   
 
+        // 상 하 좌 우 계산할 때 사용하기 위해
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
+
+        // bfs 큐 이용, 좌표값을 쉽게 저장하기 위해 Pair클래스 구현
+        Queue<Pair> queue = new LinkedList<>();
+        // 처음 값 넣기
+        Pair startPair = new Pair(0, 0);
+        dist[0][0] = 0;
+        queue.offer(startPair);
+
+        // 큐가 빌때까지
         while (!queue.isEmpty()) {
-            Point currentPoint = queue.poll();
-            
-            for (int i = 0; i < 4; i++) {
-                int nextX = currentPoint.x + dx[i];
-                int nextY = currentPoint.y + dy[i];
+            Pair p = queue.poll();
 
-                // 1. 범위 이내에 있는가?
-                if (nextX < 0 || nextX >= n || nextY < 0 || nextY >= m)
-                    continue;  
-                // 2. 막힌 길인가?
-                if (arr[nextX][nextY] == 0)
-                    continue;   
-                // 3. 이미 방문 했나?
-                if (visited[nextX][nextY])
-                    continue;   
-                
-                queue.offer(new Point(nextX, nextY));
-                visited[nextX][nextY] = true;
-                
-                arr[nextX][nextY] = arr[currentPoint.x][currentPoint.y] + 1;
+            // 상하좌우 계산
+            for (int i = 0; i < 4; i++) {
+
+                int mx = p.x + dx[i];
+                int my = p.y + dy[i];
+
+                // 범위 못넘어가게 하기
+                if (mx < 0 || mx >= N || my < 0 || my >= M) {
+                    continue;
+                }
+
+                // 막다른 길, 이미 방문함
+                // (최단거리가 있으면 먼저 도착해서 dist를 바꿔놨기 때문에 나중에 도착한 값으로는 못바꾼다.)
+                if (maze[mx][my] == 0 || dist[mx][my] != -1) {
+                    continue;
+                }
+
+                queue.offer(new Pair(mx, my));
+
+                dist[mx][my] = dist[p.x][p.y] + 1;
             }
         }
+
+            System.out.print((dist[N - 1][M - 1] + 1));
+    }
+
+    public static class Pair {
+        private int x;
+        private int y;
+
+        Pair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
     }
 }
