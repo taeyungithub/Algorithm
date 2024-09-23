@@ -1,0 +1,13 @@
+### 멤버조회
+GET localhost:8080/me
+
+
+### 멤버생성
+POST localhost:8080/members
+Content-Type: application/json
+
+{
+  "name" : "백종원",
+  "age" : 50,
+  "class" : null
+}
