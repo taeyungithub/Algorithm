@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 public class Member {
     private String name;
-    @JsonSerialize(using = ToStringSerializer.class)
     private Integer age;
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonProperty("class")
