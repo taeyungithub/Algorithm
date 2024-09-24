@@ -9,6 +9,7 @@ Accept: application/xml
 ### 멤버생성
 POST localhost:8080/members
 Content-Type: application/json
+Accept-Language: en
 
 {
   "name" : "백종원",

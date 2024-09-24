@@ -3,6 +3,8 @@ package nhn.academy.controller;
 import nhn.academy.model.ClassType;
 import nhn.academy.model.Member;
 import nhn.academy.model.MemberCreateCommand;
+import nhn.academy.model.Requester;
+import nhn.academy.model.annotation.Auth;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,8 @@ public class MemberController {
     }
 
     @PostMapping("/members")
-    public ResponseEntity addMember(@RequestBody  MemberCreateCommand memberCreateCommand){
+    public ResponseEntity addMember(@RequestBody MemberCreateCommand memberCreateCommand,
+                                    @Auth Requester requester){
         System.out.println(memberCreateCommand);
         return ResponseEntity.ok().build();
     }
