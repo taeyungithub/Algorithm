@@ -20,9 +20,18 @@ public class MemberService {
 
     private String HASH_NAME = "Member:";
 
+    public Member getMember(String memberId) {
+
+        Object object = redisTemplate.opsForHash().get(HASH_NAME, memberId);
+        if (object == null) {
+            throw new MemberNotFoundException();
+        }
+        return (Member) object;
+    }
+
     public void createMember(MemberCreateCommand memberCreateCommand) {
-        Object o = redisTemplate.opsForHash().get(HASH_NAME, memberCreateCommand.getId());
-        if (o != null) {
+        Object object = redisTemplate.opsForHash().get(HASH_NAME, memberCreateCommand.getId());
+        if (object != null) {
             throw new MemberAlreadyExistsException("already used id");
         }
         Member member = new Member(memberCreateCommand.getId(), memberCreateCommand.getName(), memberCreateCommand.getAge(), memberCreateCommand.getClazz(), memberCreateCommand.getRole());
@@ -38,17 +47,12 @@ public class MemberService {
         return members;
     }
 
-    public Member getMember(String memberId) {
+    public Member updateMember(String memberId, MemberCreateCommand memberCreateCommand) {
 
-        Object o = redisTemplate.opsForHash().get(HASH_NAME, memberId);
-        if (o == null) {
-            throw new MemberNotFoundException();
-        }
-        return (Member) o;
+        return new Member(memberId,memberCreateCommand.getName(), memberCreateCommand.getAge(), memberCreateCommand.getClazz(), memberCreateCommand.getRole());
     }
 
-    public Member updateMember(String memberId) {
-
-        return null;
+    public void deleteMember(String memberId) {
+        redisTemplate.opsForHash().delete(HASH_NAME, memberId);
     }
 }

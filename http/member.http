@@ -23,9 +23,26 @@ Content-Type: application/json
 Accept-Language: en
 
 {
-  "id" : "baek",
-  "name" : "백종원",
+  "id" : "111",
+  "name" : "111",
   "age" : 50,
+  "class" : "A",
+  "role" : "member"
+
+}
+
+### 멤버삭제
+DELETE localhost:8080/members/1
+
+
+### 멤버수정
+PUT localhost:8080/members/baek
+Content-Type: application/json
+
+{
+  "id" : "baek",
+  "name" : "111",
+  "age" : 123,
   "class" : "A",
   "role" : "member"
 
