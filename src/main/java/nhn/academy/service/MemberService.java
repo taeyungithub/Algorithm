@@ -34,7 +34,7 @@ public class MemberService {
         if (object != null) {
             throw new MemberAlreadyExistsException("already used id");
         }
-        Member member = new Member(memberCreateCommand.getId(), memberCreateCommand.getName(), memberCreateCommand.getAge(), memberCreateCommand.getClazz(), memberCreateCommand.getRole());
+        Member member = new Member(memberCreateCommand.getId(),memberCreateCommand.getPassword(),memberCreateCommand.getEmail(),memberCreateCommand.getState());
         redisTemplate.opsForHash().put(HASH_NAME, member.getId(), member);
     }
 
@@ -49,7 +49,7 @@ public class MemberService {
 
     public Member updateMember(String memberId, MemberCreateCommand memberCreateCommand) {
 
-        return new Member(memberId,memberCreateCommand.getName(), memberCreateCommand.getAge(), memberCreateCommand.getClazz(), memberCreateCommand.getRole());
+        return new Member(memberId,memberCreateCommand.getPassword(),memberCreateCommand.getEmail(),memberCreateCommand.getState());
     }
 
     public void deleteMember(String memberId) {

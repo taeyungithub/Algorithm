@@ -1,49 +1,30 @@
 ### 멤버조회
-GET localhost:8080/me
-
-
-### 멤버조회
-GET localhost:8080/me
-Accept: application/xml
-
+GET localhost:8080/accounts
 
 ### 멤버조회
-GET localhost:8080/members
-
-### 멤버조회
-GET localhost:8080/members/baek
-
-### 멤버조회
-GET localhost:8080/members/man
+GET localhost:8080/accounts/1
 
 
 ### 멤버생성
-POST localhost:8080/members
+POST localhost:8080/accounts
 Content-Type: application/json
 Accept-Language: en
 
 {
-  "id" : "111",
-  "name" : "111",
-  "age" : 50,
-  "class" : "A",
-  "role" : "member"
-
+  "id" : "1",
+  "password": "1",
+  "email": "123@123",
+  "state": "JOIN"
 }
 
-### 멤버삭제
-DELETE localhost:8080/members/1
 
 
 ### 멤버수정
-PUT localhost:8080/members/baek
+PUT localhost:8080/accounts/1
 Content-Type: application/json
 
 {
-  "id" : "baek",
-  "name" : "111",
-  "age" : 123,
-  "class" : "A",
-  "role" : "member"
-
+  "password": "1",
+  "email": "321@321",
+  "state": "SLEEPER"
 }
